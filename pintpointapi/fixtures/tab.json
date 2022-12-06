@@ -1,0 +1,22 @@
+[
+    {
+        "model": "pintpointapi.tab",
+        "pk": 1,
+        "fields": {
+            "employee": 1,
+            "customer": 1,
+            "gratuity": 2.30,
+            "closed": true,
+            "itmes": []
+        }
+    },
+    {
+        "model": "pintpointapi.tab",
+        "pk": 1,
+        "fields": {
+            "employee": 1,
+            "closed": false,
+            "itmes": []
+        }
+    }
+]

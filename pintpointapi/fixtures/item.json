@@ -1,0 +1,52 @@
+[
+    {
+        "model": "pintpointapi.item",
+        "pk": 1,
+        "fields": {
+            "name": "Hamm's",
+            "maker": "Hamm's",
+            "price": 4,
+            "type": 1
+        }
+    },
+    {
+        "model": "pintpointapi.item",
+        "pk": 2,
+        "fields": {
+            "name": "Homestyle",
+            "maker": "Bearded Iris",
+            "price": 6,
+            "type": 2
+        }
+    },
+    {
+        "model": "pintpointapi.item",
+        "pk": 3,
+        "fields": {
+            "name": "Sidecar",
+            "maker": "N/A",
+            "price": 8,
+            "type": 5
+        }
+    },
+    {
+        "model": "pintpointapi.item",
+        "pk": 4,
+        "fields": {
+            "name": "Old Fashioned",
+            "maker": "N/A",
+            "price": 8,
+            "type": 5
+        }
+    },
+    {
+        "model": "pintpointapi.item",
+        "pk": 5,
+        "fields": {
+            "name": "Nachos",
+            "maker": "Us",
+            "price": 4,
+            "type": 7
+        }
+    },
+]

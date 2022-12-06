@@ -1,0 +1,9 @@
+[
+    {
+        "model": "pintpointapi.customer",
+        "pk": 1,
+        "fields": {
+            "name": "James Pants"
+        }
+    }
+]

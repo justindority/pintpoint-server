@@ -1,0 +1,65 @@
+[
+    {
+        "model": "pintpointapi.itemtype",
+        "pk": 1,
+        "fields": {
+            "type": "Lager"
+        }
+    },
+    {
+        "model": "pintpointapi.itemtype",
+        "pk": 2,
+        "fields": {
+            "type": "IPA"
+        }
+    },
+    {
+        "model": "pintpointapi.itemtype",
+        "pk": 3,
+        "fields": {
+            "type": "Pilsner"
+        }
+    },
+    {
+        "model": "pintpointapi.itemtype",
+        "pk": 4,
+        "fields": {
+            "type": "Stout"
+        }
+    },
+    {
+        "model": "pintpointapi.itemtype",
+        "pk": 5,
+        "fields": {
+            "type": "Cocktail"
+        }
+    },
+    {
+        "model": "pintpointapi.itemtype",
+        "pk": 6,
+        "fields": {
+            "type": "Shot"
+        }
+    },
+    {
+        "model": "pintpointapi.itemtype",
+        "pk": 7,
+        "fields": {
+            "type": "Food"
+        }
+    },
+    {
+        "model": "pintpointapi.itemtype",
+        "pk": 8,
+        "fields": {
+            "type": "Merch"
+        }
+    },
+    {
+        "model": "pintpointapi.itemtype",
+        "pk": 9,
+        "fields": {
+            "type": "Gift Card"
+        }
+    }
+]
