@@ -7,16 +7,16 @@
             "customer": 1,
             "gratuity": 2.30,
             "closed": true,
-            "itmes": []
+            "items": []
         }
     },
     {
         "model": "pintpointapi.tab",
-        "pk": 1,
+        "pk": 2,
         "fields": {
             "employee": 1,
             "closed": false,
-            "itmes": []
+            "items": []
         }
     }
 ]

@@ -1,9 +1,11 @@
 """View module for handling requests about employees"""
 from django.http import HttpResponseServerError
+from django.contrib.auth.models import User
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers, status
 from pintpointapi.models import Employee
+from datetime import date
 
 
 class EmployeeView(ViewSet):
@@ -31,6 +33,23 @@ class EmployeeView(ViewSet):
         serializer = EmployeeSerializer(employees, many=True) 
         return Response(serializer.data)
 
+    def create(self, request):
+        """Handle POST operations
+
+        Returns
+            Response -- JSON serialized employee instance
+        """
+
+        user = User.objects.get(pk=request.data['user'])
+
+        employee = Employee.objects.create(
+            user=user,
+            hourly_rate=request.data['hourlyRate'],
+            hire_date=date.today()
+            )
+
+        serializer = EmployeeSerializer(employee)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def update(self, request, pk):
         """Handle PUT requests for an employee

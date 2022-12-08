@@ -2,4 +2,4 @@ from django.db import models
 
 class ItemType(models.Model):
 
-    type: models.CharField(max_length=50)
+    type = models.CharField(max_length=50)

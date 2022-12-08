@@ -14,8 +14,23 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.conf.urls import include
 from django.urls import path
+from django.conf.urls import include
+from rest_framework import routers
+from pintpointapi.views import login_user, register_user, CustomerView, EmployeeView, TabView, ItemView
+
+router = routers.DefaultRouter(trailing_slash=False)
+router.register(r'customers', CustomerView, 'customer')
+router.register(r'employees', EmployeeView, 'employee')
+router.register(r'tabs', TabView, 'tab')
+router.register(r'items', ItemView, 'item')
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('login', login_user),
+    path('register', register_user),
+    path('', include(router.urls)),
+
 ]

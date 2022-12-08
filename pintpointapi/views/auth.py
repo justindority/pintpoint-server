@@ -50,7 +50,8 @@ def register_user(request):
         username=request.data['username'],
         password=request.data['password'],
         first_name=request.data['firstName'],
-        last_name=request.data['lastName']
+        last_name=request.data['lastName'],
+        email=request.data['email']
     )
 
     # Now save the extra info in the employee table
