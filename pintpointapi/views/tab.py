@@ -52,14 +52,10 @@ class TabView(ViewSet):
             Response -- JSON serialized tab instance
         """
         employee = Employee.objects.get(user=request.auth.user)
-        if request.data["customer"]:
-            customer = Customer.objects.get(pk=request.data["customer"])
-        else:
-            customer = None
 
         tab = Tab.objects.create(
             employee=employee,
-            customer=customer
+            customer=request.data['customer']
         )
         serializer = TabSerializer(tab)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -70,6 +66,8 @@ class TabView(ViewSet):
         Returns:
             Response -- Empty body with 204 status code
         """
+
+        
 
         tab = Tab.objects.get(pk=pk)
         tab.employee = Employee.objects.get(pk=request.data["employee_id"])
@@ -112,4 +110,4 @@ class TabSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tab
         fields = ('id', 'employee', 'customer', 'gratuity', 'closed', 'items')
-        depth = 1
+        depth = 2
