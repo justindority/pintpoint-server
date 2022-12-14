@@ -18,7 +18,12 @@ class EmployeeView(ViewSet):
             Response -- JSON serialized employee
         """
 
-        employee = Employee.objects.get(pk=pk)
+        if 'me' in request.query_params:
+            employee = Employee.objects.get(user=request.auth.user)
+        else:
+            employee = Employee.objects.get(pk=pk)
+
+
         serializer = EmployeeSerializer(employee)
         return Response(serializer.data)
 
@@ -77,3 +82,4 @@ class EmployeeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Employee
         fields = ('id', 'user', 'hourly_rate', 'hire_date', 'term_date',)
+        depth = 1

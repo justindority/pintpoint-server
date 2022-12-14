@@ -54,8 +54,7 @@ class TabView(ViewSet):
         employee = Employee.objects.get(user=request.auth.user)
 
         tab = Tab.objects.create(
-            employee=employee,
-            customer=request.data['customer']
+            employee=employee
         )
         serializer = TabSerializer(tab)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -70,13 +69,16 @@ class TabView(ViewSet):
         
 
         tab = Tab.objects.get(pk=pk)
-        tab.employee = Employee.objects.get(pk=request.data["employee_id"])
+        tab.customer = request.data["customer"]
+        tab.employee = Employee.objects.get(pk=request.data["employeeId"])
         tab.gratuity = request.data["gratuity"]
         tab.closed = request.data["closed"]
         
         tab.save()
 
-        return Response(None, status=status.HTTP_204_NO_CONTENT)
+        serialized = TabSerializer(tab)
+
+        return Response(serialized.data, status=status.HTTP_200_OK)
 
     def destroy(self, request, pk):
         tab = Tab.objects.get(pk=pk)
@@ -97,7 +99,7 @@ class TabView(ViewSet):
         """delete request to remove an item from a tab"""
     
         item = Item.objects.get(pk=request.data['item'])
-        tab = Tab.objects.get(pk=request.data['tab'])
+        tab = Tab.objects.get(pk=pk)
         tab.items.remove(item)
         return Response({'message': 'Item removed'}, status=status.HTTP_204_NO_CONTENT)
         

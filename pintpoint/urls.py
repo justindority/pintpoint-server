@@ -18,13 +18,15 @@ from django.conf.urls import include
 from django.urls import path
 from django.conf.urls import include
 from rest_framework import routers
-from pintpointapi.views import login_user, register_user, CustomerView, EmployeeView, TabView, ItemView
+from pintpointapi.views import login_user, register_user, CustomerView, EmployeeView, TabView, ItemView, ItemTypeView
 
 router = routers.DefaultRouter(trailing_slash=False)
 router.register(r'customers', CustomerView, 'customer')
 router.register(r'employees', EmployeeView, 'employee')
 router.register(r'tabs', TabView, 'tab')
 router.register(r'items', ItemView, 'item')
+router.register(r'itemTypes', ItemTypeView, 'itemType')
+
 
 
 urlpatterns = [

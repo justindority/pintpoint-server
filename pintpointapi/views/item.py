@@ -16,6 +16,8 @@ class ItemView(ViewSet):
             Response -- JSON serialized item
         """
 
+
+
         item = Item.objects.get(pk=pk)
         serializer = ItemSerializer(item)
         return Response(serializer.data)
@@ -28,6 +30,15 @@ class ItemView(ViewSet):
         """
 
         items = Item.objects.all()
+
+
+        if 'type' in request.query_params:
+            type_to_int = int(request.query_params['type'])
+            item_type = ItemType.objects.get(pk=type_to_int)
+            items = items.filter(type=item_type)
+        if 'active' in request.query_params:
+            items = items.filter(active = True)
+
         serializer = ItemSerializer(items, many=True) 
         return Response(serializer.data)
 
@@ -39,11 +50,17 @@ class ItemView(ViewSet):
             Response -- JSON serialized item instance
         """
 
-        type = ItemType.objects.get(pk=request.data["itemType"])
+        type = ItemType.objects.get(pk=request.data["type"])
+
+        if "maker" in request.data:
+            maker = request.data["maker"]
+        else:
+            maker = ""
 
         item = Item.objects.create(
             name=request.data["name"],
             price=request.data["price"],
+            maker = maker,
             type=type
 
         )
@@ -58,13 +75,22 @@ class ItemView(ViewSet):
         """
 
         item = Item.objects.get(pk=pk)
-        item.name = request.data["name"]
-        item.price = request.data["price"]
-        item.type = ItemType.objects.get(pk=request.data["itemType"])
-        
-        item.save()
 
-        return Response(None, status=status.HTTP_204_NO_CONTENT)
+        if 'deactivate' in request.query_params:
+            item.active = False
+        elif 'reactivate' in request.query_params:
+            item.active = True
+        else:
+            item.name = request.data["name"]
+            item.price = request.data["price"]
+            item.maker = request.data["maker"]
+            item.type = ItemType.objects.get(pk=request.data["type"])
+            
+            
+        item.save()
+        serializer = ItemSerializer(item)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
         
 
@@ -75,4 +101,4 @@ class ItemSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = Item
-        fields = ('id', 'name', 'price', 'type',)
+        fields = ('id', 'name', 'price', 'type', 'active', 'maker')

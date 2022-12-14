@@ -3,3 +3,4 @@ from .customer import CustomerView
 from .employee import EmployeeView
 from .item import ItemView
 from .tab import TabView
+from .item_type import ItemTypeView
