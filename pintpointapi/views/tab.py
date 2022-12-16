@@ -17,6 +17,7 @@ class TabView(ViewSet):
             Response -- JSON serialized tab
         """
 
+
         tab = Tab.objects.get(pk=pk)
         serializer = TabSerializer(tab)
         return Response(serializer.data)
@@ -69,7 +70,8 @@ class TabView(ViewSet):
         
 
         tab = Tab.objects.get(pk=pk)
-        tab.customer = request.data["customer"]
+        if request.data['customer']:
+            tab.customer = request.data["customer"]
         tab.employee = Employee.objects.get(pk=request.data["employeeId"])
         tab.gratuity = request.data["gratuity"]
         tab.closed = request.data["closed"]

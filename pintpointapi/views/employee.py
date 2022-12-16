@@ -63,12 +63,19 @@ class EmployeeView(ViewSet):
             Response -- Empty body with 204 status code
         """
 
-        employee = Employee.objects.get(pk=pk)
-        employee.employee = Employee.objects.get(pk=request.data["employee_id"])
-        employee.gratuity = request.data["gratuity"]
-        employee.closed = request.data["closed"]
+        employee = Employee.objects.get(pk=request.data['id'])
+        user = User.objects.get(pk=request.data['user_id'])
+
+        employee.hourly_rate = request.data['hourly_rate']
         
+        user.first_name = request.data['first_name']
+        user.last_name = request.data['last_name']
+        user.email = request.data['email']
+        user.username = request.data['username']
+        user.is_staff = request.data['is_staff']
+
         employee.save()
+        user.save()
 
         return Response(None, status=status.HTTP_204_NO_CONTENT)
 
