@@ -84,7 +84,7 @@ class ItemView(ViewSet):
             item.name = request.data["name"]
             item.price = request.data["price"]
             item.maker = request.data["maker"]
-            item.type = ItemType.objects.get(pk=request.data["type"])
+            item.type = ItemType.objects.get(pk=request.data["type"]["id"])
             
             
         item.save()
@@ -102,3 +102,5 @@ class ItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = Item
         fields = ('id', 'name', 'price', 'type', 'active', 'maker')
+        depth = 1
+        

@@ -18,10 +18,7 @@ class EmployeeView(ViewSet):
             Response -- JSON serialized employee
         """
 
-        if 'me' in request.query_params:
-            employee = Employee.objects.get(user=request.auth.user)
-        else:
-            employee = Employee.objects.get(pk=pk)
+        employee = Employee.objects.get(pk=pk)
 
 
         serializer = EmployeeSerializer(employee)
@@ -62,6 +59,12 @@ class EmployeeView(ViewSet):
         Returns:
             Response -- Empty body with 204 status code
         """
+
+        if 'terminate' in request.query_params:
+            user = User.objects.get(pk=request.query_params['userId'])
+            user.is_active = False
+            user.save()
+            return Response(None, status=status.HTTP_204_NO_CONTENT)
 
         employee = Employee.objects.get(pk=request.data['id'])
         user = User.objects.get(pk=request.data['user_id'])

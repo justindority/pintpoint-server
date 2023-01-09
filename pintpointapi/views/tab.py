@@ -4,7 +4,8 @@ from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers, status
 from rest_framework.decorators import action
-from pintpointapi.models import Tab, Employee, Customer, Item
+from datetime import date
+from pintpointapi.models import Tab, Employee, Customer, Item, TabItems
 
 
 class TabView(ViewSet):
@@ -91,9 +92,11 @@ class TabView(ViewSet):
     def additem(self, request, pk):
         """Post request to add an item to a tab"""
     
-        item = Item.objects.get(pk=request.data['item'])
-        tab = Tab.objects.get(pk=pk)
-        tab.items.add(item)
+        TabItems.objects.create(
+            item=Item.objects.get(pk=request.data['item']),
+            tab=Tab.objects.get(pk=pk),
+            timestamp=date.today()
+            )
         return Response({'message': 'Item added'}, status=status.HTTP_201_CREATED)
 
     @action(methods=['delete'], detail=True)
@@ -102,7 +105,11 @@ class TabView(ViewSet):
     
         item = Item.objects.get(pk=request.data['item'])
         tab = Tab.objects.get(pk=pk)
-        tab.items.remove(item)
+        multiple_items = (TabItems.objects.filter(item_id = request.data['item']) and TabItems.objects.filter(tab_id = pk))
+        for thing in multiple_items:
+            thing.delete()
+            break
+
         return Response({'message': 'Item removed'}, status=status.HTTP_204_NO_CONTENT)
         
 

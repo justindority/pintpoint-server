@@ -5,6 +5,8 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from datetime import date
+from rest_framework import serializers, status
+
 
 from pintpointapi.models import Employee
 
@@ -44,6 +46,9 @@ def register_user(request):
       request -- The full HTTP request object
     '''
 
+    if User.objects.filter(email=request.data['email']):
+        return Response('Duplicate Email Found')
+
     # Create a new user by invoking the `create_user` helper method
     # on Django's built-in User model
     new_user = User.objects.create_user(
@@ -52,7 +57,7 @@ def register_user(request):
         first_name=request.data['firstName'],
         last_name=request.data['lastName'],
         email=request.data['email']
-    )
+        )
 
     # Now save the extra info in the employee table
     employee = Employee.objects.create(
@@ -66,3 +71,24 @@ def register_user(request):
     # Return the token to the client
     data = { 'token': token.key }
     return Response(data)
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def getMe(request):
+
+    if request.auth:
+        employee = Employee.objects.get(user=request.auth.user)
+        serializer = EmployeeSerializer(employee)
+        return Response(serializer.data)
+    else:
+        data = 'Not found'
+        return Response(data)
+
+class EmployeeSerializer(serializers.ModelSerializer):
+    """JSON serializer for employees
+    """
+    class Meta:
+        model = Employee
+        fields = ('id', 'user', 'hourly_rate', 'hire_date', 'term_date',)
+        depth = 1
+
